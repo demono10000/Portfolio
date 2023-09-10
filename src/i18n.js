@@ -2,10 +2,14 @@ import {createI18n} from 'vue-i18n';
 
 const messages = {
     pl: {
-
+        portfolio: 'Portfolio',
+        contact: 'Kontakt',
+        timeline_title: 'Ścieżka mojego rozwoju programistycznego',
     },
     en: {
-
+        portfolio: 'Portfolio',
+        contact: 'Contact',
+        timeline_title: 'The path of my programming development',
     }
 }
 

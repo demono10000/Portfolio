@@ -3,7 +3,7 @@
 </script>
 
 <template>
-Hello World!
+WIP
 </template>
 
 <style scoped>
