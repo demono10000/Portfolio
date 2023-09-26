@@ -1,0 +1,13 @@
+on right click on wool:
+    send "&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&rPol&4ski &rserwer &6SKY&2WARS &6DEMONO&2CRAFT &rBY &6demono&210000            &6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-" to player
+on right click on ice:
+    send "&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&9Tryb SKYWARS polega na tym ze, kazdy gracz ma wlasna wyspe na ktorej ma skrzynki z losowymi przedmiotami i jego zadaniem jest zabicie wszystkich przeciwnikow, dla ulatwienia zadania kto pierwszy dostaniesie sie na srodek ma dostep do duzej ilosci skrzynek.                                                   &6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-&2-&6-" to player
+On right click on sponge:
+    Send "Konto &6VIP &rdaje ci:"
+On right click on pumpkin:
+    Send "Konto &2Super&6VIP &rdaje ci:"
+On right click on netherrack:
+    Send "Jezeli klikniesz PPM gdy trzymasz w rece TNT zostanie ono wyrzucone przed ciebie i po chwili wybuchnie."
+On right click on glowstone:
+    send "a"
+	

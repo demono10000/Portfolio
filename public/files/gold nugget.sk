@@ -1,0 +1,8 @@
+on rightclick with gold nugget:
+    player has gold nugget
+    remove 1 gold nugget from player
+    shoot tnt from player with speed 1.5
+
+on leftclick with a gold nugget:
+    strike lightning at the targeted block
+    remove 1 gold nugget from player

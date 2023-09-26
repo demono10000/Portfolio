@@ -1,0 +1,8 @@
+on rightclick with tnt:
+    player has tnt
+    remove 1 tnt from player
+	cancel event
+    shoot tnt from player with speed 0.4
+
+on place of tnt:
+    set block to air
