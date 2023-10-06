@@ -7,7 +7,7 @@
         <h1 class="text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">{{ $t('contact_title') }}</h1>
         <div class="space-y-4">
             <p class="text-gray-700 dark:text-gray-300">
-                <strong>Email:</strong> <a href="mailto:pawel@soltys.com.pl" class="text-blue-600 dark:text-blue-400">pawel@soltys.com.pl</a>
+                <strong>Email:</strong> <a href="mailto:kontakt@pawelsoltys.dev" class="text-blue-600 dark:text-blue-400">kontakt@pawelsoltys.dev</a>
             </p>
             <p class="text-gray-700 dark:text-gray-300">
                 <strong>{{ $t('phone') }}:</strong> <a href="tel:+48883047806" class="text-blue-600 dark:text-blue-400">+48 883 047 806</a>

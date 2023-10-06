@@ -678,6 +678,14 @@ export default {
                                 {
                                     type: 'github-repo',
                                     url: 'https://github.com/demono10000/odczyt-danych-BD-electron',
+                                },
+                                {
+                                    type: 'text',
+                                    value: this.$t('timeline_2023_3_3')
+                                },
+                                {
+                                    type: 'github-repo',
+                                    url: 'https://github.com/demono10000/Portfolio',
                                 }
                             ]
                         },
@@ -710,6 +718,53 @@ export default {
                         {
                             title: this.$t('timeline_2023_6'),
                             contents: [
+                                {
+                                    type: 'text',
+                                    value: this.$t('timeline_2023_6_1')
+                                },
+                                {
+                                    type: 'github-repo',
+                                    url: 'https://github.com/demono10000/braki_soczewek',
+                                },
+                                {
+                                    type: 'text',
+                                    value: this.$t('timeline_2023_6_2')
+                                },
+                                {
+                                    type: 'github-repo',
+                                    url: 'https://github.com/MonkeyEurobusiness/NoktoNokto',
+                                },
+                                {
+                                    type: 'text',
+                                    value: this.$t('timeline_2023_6_3')
+                                },
+                                {
+                                    type: 'github-repo',
+                                    url: 'https://github.com/demono10000/vr_camera_viewer',
+                                }
+                            ]
+                        },
+                        {
+                            title: this.$t('timeline_2023_7'),
+                            contents: [
+                                {
+                                    type: 'link',
+                                    src: 'https://demono10000.pl/certificates/photos/hackyeah2023.pdf',
+                                    label: this.$t('timeline_2023_7_1')
+                                },
+                                {
+                                    type: 'github-repo',
+                                    url: 'https://github.com/MonkeyEurobusiness',
+                                },
+                                {
+                                    type: 'link',
+                                    src: 'https://challengerocket.com/hackyeah-2023/works/noktowizor-769c68#go-pagecontent',
+                                    label: this.$t('timeline_2023_7_2')
+                                },
+                                {
+                                    type: 'youtube-video',
+                                    videoId: 'at7yDR7tKWk',
+                                },
                             ]
                         },
                     ]
