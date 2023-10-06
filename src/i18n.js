@@ -93,6 +93,8 @@ const messages = {
         timeline_2023_7_2: 'Projekt na Challenge Rocket',
         contact_title: 'Informacje kontaktowe',
         phone: 'Telefon',
+        about_me: 'Programowanie jest moją pasją od wielu lat i każdego dnia podchodzę do niego z entuzjazmem. Chętnie uczę się nowych języków i odkrywam nowe technologie. Z dumą dzielę się swoją wiedzą, w szczególności poprzez tworzenie filmów na YouTube.',
+        about_me_title: 'O mnie',
     },
     en: {
         portfolio: 'Portfolio',
@@ -186,6 +188,8 @@ const messages = {
         timeline_2023_7_2: 'Project at Challenge Rocket',
         contact_title: 'Contact Information',
         phone: 'Phone',
+        about_me: 'I\'ve had a passion for programming for many years, and I approach it with enthusiasm every day. I\'m eager to learn new languages and discover emerging technologies. I take pride in sharing my knowledge, notably through creating videos on YouTube.',
+        about_me_title: 'About me',
     }
 }
 
