@@ -1,62 +1,94 @@
 <template>
-    <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
-        <h1 class="text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">{{ $t('timeline_title') }}</h1>
-        <div v-for="year in years" :key="year.year" class="mb-8">
-            <h2 class="text-3xl font-semibold mb-4 text-gray-700 dark:text-gray-200 cursor-pointer"
-                @click="toggleYearContent(year.year)">{{ year.year }}
-                <span v-if="isYearExpanded(year.year)">▽</span>
-                <span v-else>▷</span>
-            </h2>
-            <div v-for="event in year.events" :key="event.title" class="mb-4 pl-4 border-l-4 border-red-600">
-                <h3 class="text-xl font-medium mb-2 text-gray-800 dark:text-gray-200">{{ event.title }}</h3>
-                <div v-if="isYearExpanded(year.year)">
-                    <div v-for="(content, index) in event.contents" :key="index">
-                        <p v-if="content.type === 'text'" class="text-gray-700 dark:text-gray-300 mb-2">{{
-                            content.value
-                            }}</p>
+    <div  class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md flex">
 
-                        <img v-if="content.type === 'image'" :src="content.src" alt="image" class="w-full mb-2">
-
-                        <video v-if="content.type === 'video'" controls class="w-full mb-2">
-                            <source :src="content.src" type="video/mp4">
-                        </video>
-
-                        <a v-if="content.type === 'link'" :href="content.src"
-                           class="underline text-blue-600 dark:text-blue-400 mb-2"
-                           target="_blank">{{ content.label }}</a>
-
-                        <a v-if="content.type === 'file'" :href="content.src" download
-                           class="underline text-blue-600 dark:text-blue-400 mb-2">
-                            {{ content.label }}</a>
-
-                        <iframe v-if="content.type === 'youtube-video'"
-                                :src="'https://www.youtube.com/embed/' + content.videoId"
-                                class="youtube-frame mb-2 w-full" height="500"></iframe>
-
-                        <iframe v-if="content.type === 'youtube-playlist'"
-                                :src="'https://www.youtube.com/embed/videoseries?list=' + content.playlistId"
-                                class="youtube-frame mb-2 w-full" height="500"></iframe>
-
-                        <a v-if="content.type === 'github-repo'" :href="content.url"
-                           class="github-link mb-2 text-gray-900 dark:text-gray-100"
-                           target="_blank">
-                            <i class="fab fa-github"></i> GitHub
+        <!-- Table of Contents -->
+        <div class="hidden lg:block lg:w-1/4 pr-8 overflow-y-auto">
+            <div class="sticky top-0 p-4 bg-white dark:bg-gray-900 border rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{{ $t('contents') }}</h1>
+                <ul class="space-y-2">
+                    <li v-for="year in years" :key="'toc-' + year.year">
+                        <a @click="scrollToYear(year.year)"
+                           class="cursor-pointer block py-1 px-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300">
+                            {{ year.year }}
                         </a>
+                        <ul class="pl-4 mt-2 space-y-1">
+                            <li v-for="event in year.events" :key="'toc-event-' + event.title">
+                                <a @click="scrollToYear(year.year)"
+                                   class="cursor-pointer block py-1 px-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 text-sm">
+                                    {{ event.title }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-                        <a v-if="content.type === 'google-play'" :href="content.url"
-                           class="google-play-link mb-2 text-gray-900 dark:text-gray-100" target="_blank">
-                            <i class="fab fa-google-play"></i> Google Play
-                        </a>
 
-                        <iframe v-if="content.type === 'facebook-video'"
-                                :src="'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(content.url)"
-                                class="facebook-frame mb-2 w-full" height="500"></iframe>
+        <!-- Timeline Content -->
+        <div class="w-full lg:w-3/4">
+            <h1 class="text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">{{ $t('timeline_title') }}</h1>
+            <div v-for="year in years" :key="year.year" class="mb-8" :id="'year-' + year.year">
+                <h2 class="text-3xl font-semibold mb-4 text-gray-700 dark:text-gray-200 cursor-pointer"
+                    @click="toggleYearContent(year.year)">{{ year.year }}
+                    <span v-if="isYearExpanded(year.year)">▽</span>
+                    <span v-else>▷</span>
+                </h2>
+                <div v-for="event in year.events" :key="event.title" class="mb-4 pl-4 border-l-4 border-red-600">
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 dark:text-gray-200">{{ event.title }}</h3>
+                    <div v-if="isYearExpanded(year.year)">
+                        <div v-for="(content, index) in event.contents" :key="index">
+                            <p v-if="content.type === 'text'" class="text-gray-700 dark:text-gray-300 mb-2">{{
+                                    content.value
+                                }}</p>
 
-                        <pre v-if="content.type === 'code'"><code>{{ content.value }}</code></pre>
+                            <img v-if="content.type === 'image'" :src="content.src" alt="image" class="w-full mb-2">
+
+                            <video v-if="content.type === 'video'" controls class="w-full mb-2">
+                                <source :src="content.src" type="video/mp4">
+                            </video>
+
+                            <a v-if="content.type === 'link'" :href="content.src"
+                               class="underline text-blue-600 dark:text-blue-400 mb-2"
+                               target="_blank">{{ content.label }}</a>
+
+                            <a v-if="content.type === 'file'" :href="content.src" download
+                               class="underline text-blue-600 dark:text-blue-400 mb-2">
+                                {{ content.label }}</a>
+
+                            <iframe v-if="content.type === 'youtube-video'"
+                                    :src="'https://www.youtube.com/embed/' + content.videoId"
+                                    class="youtube-frame mb-2 w-full" height="500"></iframe>
+
+                            <iframe v-if="content.type === 'youtube-playlist'"
+                                    :src="'https://www.youtube.com/embed/videoseries?list=' + content.playlistId"
+                                    class="youtube-frame mb-2 w-full" height="500"></iframe>
+
+                            <a v-if="content.type === 'github-repo'" :href="content.url"
+                               class="github-link mb-2 text-gray-900 dark:text-gray-100"
+                               target="_blank">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+
+                            <a v-if="content.type === 'google-play'" :href="content.url"
+                               class="google-play-link mb-2 text-gray-900 dark:text-gray-100" target="_blank">
+                                <i class="fab fa-google-play"></i> Google Play
+                            </a>
+
+                            <iframe v-if="content.type === 'facebook-video'"
+                                    :src="'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(content.url)"
+                                    class="facebook-frame mb-2 w-full" height="500"></iframe>
+
+                            <pre v-if="content.type === 'code'"><code>{{ content.value }}</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Back to top button -->
+        <button v-if="showBackToTop" @click="scrollToTop" class="back-to-top bg-red-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md fixed bottom-4 right-4 focus:outline-none">
+            △
+        </button>
     </div>
 </template>
 
@@ -75,23 +107,39 @@ export default {
         return {
             years: [],
             expandedYears: [],
+            showBackToTop: false,
         };
     },
     created() {
         this.years = this.getTimelineData();
         this.expandedYears = this.years.map(y => y.year);
+        this.loadData();
     },
     mounted() {
         this.$nextTick(() => {
             this.highlightCode();
         });
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll);
     },
     watch: {
         years() {
             this.highlightCode();
-        }
+        },
+        '$i18n.locale': function() {
+            this.loadData();
+            this.$nextTick(() => {
+                this.highlightCode();
+            });
+        },
     },
     methods: {
+        loadData() {
+            this.years = this.getTimelineData();
+            this.expandedYears = this.years.map(y => y.year);
+        },
         highlightCode() {
             this.$el.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightBlock(block);
@@ -109,6 +157,21 @@ export default {
         },
         isYearExpanded(year) {
             return this.expandedYears.includes(year);
+        },
+        scrollToYear(year) {
+            const element = document.getElementById('year-' + year);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        },
+        scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        },
+        handleScroll() {
+            this.showBackToTop = window.scrollY > 200;
         },
         getTimelineData() {
             return [
