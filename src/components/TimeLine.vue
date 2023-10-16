@@ -99,12 +99,13 @@ export default {
         },
         toggleYearContent(year) {
             if (this.isYearExpanded(year)) {
-                // Collapse the year if it's currently expanded
                 this.expandedYears = this.expandedYears.filter(y => y !== year);
             } else {
-                // Otherwise, expand the clicked year
                 this.expandedYears.push(year);
             }
+            this.$nextTick(() => {
+                this.highlightCode();
+            });
         },
         isYearExpanded(year) {
             return this.expandedYears.includes(year);
