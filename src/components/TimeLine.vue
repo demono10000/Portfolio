@@ -2,53 +2,58 @@
     <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
         <h1 class="text-4xl font-bold mb-8 text-gray-900 dark:text-gray-100">{{ $t('timeline_title') }}</h1>
         <div v-for="year in years" :key="year.year" class="mb-8">
-            <h2 class="text-3xl font-semibold mb-4 text-gray-700 dark:text-gray-200">{{ year.year }}</h2>
+            <h2 class="text-3xl font-semibold mb-4 text-gray-700 dark:text-gray-200 cursor-pointer"
+                @click="toggleYearContent(year.year)">{{ year.year }}
+                <span v-if="isYearExpanded(year.year)">▽</span>
+                <span v-else>▷</span>
+            </h2>
             <div v-for="event in year.events" :key="event.title" class="mb-4 pl-4 border-l-4 border-red-600">
                 <h3 class="text-xl font-medium mb-2 text-gray-800 dark:text-gray-200">{{ event.title }}</h3>
+                <div v-if="isYearExpanded(year.year)">
+                    <div v-for="(content, index) in event.contents" :key="index">
+                        <p v-if="content.type === 'text'" class="text-gray-700 dark:text-gray-300 mb-2">{{
+                            content.value
+                            }}</p>
 
-                <div v-for="(content, index) in event.contents" :key="index">
-                    <p v-if="content.type === 'text'" class="text-gray-700 dark:text-gray-300 mb-2">{{
-                        content.value
-                        }}</p>
+                        <img v-if="content.type === 'image'" :src="content.src" alt="image" class="w-full mb-2">
 
-                    <img v-if="content.type === 'image'" :src="content.src" alt="image" class="w-full mb-2">
+                        <video v-if="content.type === 'video'" controls class="w-full mb-2">
+                            <source :src="content.src" type="video/mp4">
+                        </video>
 
-                    <video v-if="content.type === 'video'" controls class="w-full mb-2">
-                        <source :src="content.src" type="video/mp4">
-                    </video>
+                        <a v-if="content.type === 'link'" :href="content.src"
+                           class="underline text-blue-600 dark:text-blue-400 mb-2"
+                           target="_blank">{{ content.label }}</a>
 
-                    <a v-if="content.type === 'link'" :href="content.src"
-                       class="underline text-blue-600 dark:text-blue-400 mb-2"
-                       target="_blank">{{ content.label }}</a>
+                        <a v-if="content.type === 'file'" :href="content.src" download
+                           class="underline text-blue-600 dark:text-blue-400 mb-2">
+                            {{ content.label }}</a>
 
-                    <a v-if="content.type === 'file'" :href="content.src" download
-                       class="underline text-blue-600 dark:text-blue-400 mb-2">
-                        {{ content.label }}</a>
+                        <iframe v-if="content.type === 'youtube-video'"
+                                :src="'https://www.youtube.com/embed/' + content.videoId"
+                                class="youtube-frame mb-2 w-full" height="500"></iframe>
 
-                    <iframe v-if="content.type === 'youtube-video'"
-                            :src="'https://www.youtube.com/embed/' + content.videoId"
-                            class="youtube-frame mb-2 w-full" height="500"></iframe>
+                        <iframe v-if="content.type === 'youtube-playlist'"
+                                :src="'https://www.youtube.com/embed/videoseries?list=' + content.playlistId"
+                                class="youtube-frame mb-2 w-full" height="500"></iframe>
 
-                    <iframe v-if="content.type === 'youtube-playlist'"
-                            :src="'https://www.youtube.com/embed/videoseries?list=' + content.playlistId"
-                            class="youtube-frame mb-2 w-full" height="500"></iframe>
+                        <a v-if="content.type === 'github-repo'" :href="content.url"
+                           class="github-link mb-2 text-gray-900 dark:text-gray-100"
+                           target="_blank">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
 
-                    <a v-if="content.type === 'github-repo'" :href="content.url"
-                       class="github-link mb-2 text-gray-900 dark:text-gray-100"
-                       target="_blank">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
+                        <a v-if="content.type === 'google-play'" :href="content.url"
+                           class="google-play-link mb-2 text-gray-900 dark:text-gray-100" target="_blank">
+                            <i class="fab fa-google-play"></i> Google Play
+                        </a>
 
-                    <a v-if="content.type === 'google-play'" :href="content.url"
-                       class="google-play-link mb-2 text-gray-900 dark:text-gray-100" target="_blank">
-                        <i class="fab fa-google-play"></i> Google Play
-                    </a>
+                        <iframe v-if="content.type === 'facebook-video'"
+                                :src="'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(content.url)"
+                                class="facebook-frame mb-2 w-full" height="500"></iframe>
 
-                    <iframe v-if="content.type === 'facebook-video'"
-                            :src="'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(content.url)"
-                            class="facebook-frame mb-2 w-full" height="500"></iframe>
-
-                    <pre v-if="content.type === 'code'"><code>{{ content.value }}</code></pre>
+                        <pre v-if="content.type === 'code'"><code>{{ content.value }}</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,11 +73,13 @@ import 'highlight.js/styles/default.css';
 export default {
     data() {
         return {
-            years: []
+            years: [],
+            expandedYears: [],
         };
     },
     created() {
         this.years = this.getTimelineData();
+        this.expandedYears = this.years.map(y => y.year);
     },
     mounted() {
         this.$nextTick(() => {
@@ -89,6 +96,18 @@ export default {
             this.$el.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightBlock(block);
             });
+        },
+        toggleYearContent(year) {
+            if (this.isYearExpanded(year)) {
+                // Collapse the year if it's currently expanded
+                this.expandedYears = this.expandedYears.filter(y => y !== year);
+            } else {
+                // Otherwise, expand the clicked year
+                this.expandedYears.push(year);
+            }
+        },
+        isYearExpanded(year) {
+            return this.expandedYears.includes(year);
         },
         getTimelineData() {
             return [
@@ -764,6 +783,29 @@ export default {
                                 {
                                     type: 'youtube-video',
                                     videoId: 'at7yDR7tKWk',
+                                },
+                            ]
+                        },
+                        {
+                            title: this.$t('timeline_2023_8'),
+                            contents: [
+                                {
+                                    type: 'link',
+                                    src: '/files/nasa2023.pdf',
+                                    label: this.$t('timeline_2023_8_1')
+                                },
+                                {
+                                    type: 'github-repo',
+                                    url: 'https://github.com/orgs/Cosmic-Capybaras/repositories',
+                                },
+                                {
+                                    type: 'link',
+                                    src: 'https://www.spaceappschallenge.org/2023/find-a-team/cosmic-capybaras1/?tab=project',
+                                    label: this.$t('timeline_2023_8_2')
+                                },
+                                {
+                                    type: 'youtube-video',
+                                    videoId: 'UXfRsnYP26E',
                                 },
                             ]
                         },
